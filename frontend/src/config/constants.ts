@@ -3,5 +3,3 @@ export const HEADER = {
   H_DESKTOP: 80,
   H_DESKTOP_OFFSET: 80 - 16,
 }
-
-export const PAYROLL_CONTRACT_ADDRESS = '0x7b8bba0CE695b77ab104ad3E4Fea0A4a88b8B4f3'

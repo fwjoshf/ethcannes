@@ -56,15 +56,12 @@ export default function Header() {
         }}
       >
         <Container>
-          <Stack>
-            <Typography
-              variant="h4"
-              sx={{ display: { xs: 'none', md: 'block' }, textTransform: 'capitalize' }}
-            >
-              {organization?.orgName}
-            </Typography>
-            Balance: {organization?.orgTreasury}
-          </Stack>
+          <Typography
+            variant="h4"
+            sx={{ display: { xs: 'none', md: 'block' }, textTransform: 'capitalize' }}
+          >
+            {organization?.name}
+          </Typography>
         </Container>
         <Container sx={{ height: 1, display: 'flex', alignItems: 'center' }}>
           <Box sx={{ flexGrow: 1 }} />

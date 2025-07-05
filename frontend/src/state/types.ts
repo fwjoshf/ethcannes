@@ -22,22 +22,15 @@ export type ThunkConfig = {
 
 export type Employee = {
   address: string
-  orgAddress: string
-  verified: boolean
   salary: number
-  activity: string
-  startMoment: number
-  latestPayReceived: number
-  openBalance: number
+  joined: number
+  balance: number
+  verified: boolean
 }
 
 export type Organization = {
-  orgAddress: `0x${string}`
-  orgId: number
-  orgName: string
-  orgTreasury: number
-  employeeCount: number
-  employees?: Employee[]
+  name: string
+  id: string
+  balance: number
+  employees: Employee[]
 }
-
-export type Address = `0x${string}`
