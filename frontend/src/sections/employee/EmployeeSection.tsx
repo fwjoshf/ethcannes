@@ -3,66 +3,38 @@
 // import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { useAppDispatch } from '@/state/hooks'
 import Box from '@mui/material/Box'
-import { Button, Stack, TextField, Typography } from '@mui/material'
+import { Button, Stack, Grid, TextField, Typography } from '@mui/material'
 import { IDKitWidget, ISuccessResult, VerificationLevel } from '@worldcoin/idkit'
+import { useAccount } from 'wagmi'
+import WorldID from './WorldID'
+import { type BaseError, useReadContract } from 'wagmi'
+import EmployeeInformation from './EmployeeInformation'
 //import fetch from 'node-fetch'
 
-export default function VerifyWorldID() {
-  const dispatch = useAppDispatch()
+export default function EmployeeSection() {
+  const { address, isConnecting, isDisconnected } = useAccount()
 
-  const onSuccess = (result: ISuccessResult) => {
-    console.log("success")
-  }
-  const verifyProof = async (result: ISuccessResult) => {
-    //const proof = JSON.stringify(result) // worldID proof
-    //console.log(result)
-    const response = await fetch("/api/verify", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        proof: result,
-        verification_level: "device",
-        organization: 5,
-        signal: "joona.eth"
-      })
-    })
+
+
+  if (!address) {
+    return null
   }
 
   return (
     <div>
       <Stack sx={{ width: '100%' }}>
-        <Typography textAlign={'center'} variant="h2">
-          Welcome, PERSON
+
+        <Typography textAlign={'center'} color="primary" variant="h2">
+          Welcome
         </Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            p: 1,
-            m: 1,
-            gap: 2,
-            width: '100%',
-            borderRadius: 1,
-          }}
-        >
-          <IDKitWidget
-            app_id="app_staging_d159dd1d864c0bd25f6341f2f4a9cbc5" // obtained from the Developer Portal
-            action="employee-verification" // this is your action name from the Developer Portal
-            signal="joona.eth" // any arbitrary value the user is committing to, e.g. a vote
-            onSuccess={onSuccess}
-            handleVerify={verifyProof}
-            verification_level={VerificationLevel.Device} // minimum verification level accepted, defaults to "orb"
-          >
-            {({ open }) => <button onClick={open}>Verify with World ID</button>}
-          </IDKitWidget>
-        </Box>
+
+        <EmployeeInformation
+          address={address}
+        />
       </Stack>
-    </div>
+    </div >
   )
 
 
 }
-
 
