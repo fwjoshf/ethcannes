@@ -42,7 +42,7 @@ const columns: GridColDef[] = [
     field: 'salary',
     headerName: 'Salary',
     type: 'number',
-    width: 60,
+    width: 140,
     editable: true,
     align: 'center',
     headerAlign: 'center',
@@ -115,7 +115,7 @@ export default function OrganizationSection({ address }: Props) {
   const dispatch = useAppDispatch()
   const newEmployeeDialog = useBoolean()
   const org = useAppSelector(selectOrganization)
-  const { data } = useGetOrganization(address)
+  const { data, refetch } = useGetOrganization(address)
 
   useEffect(() => {
     if (data) {
