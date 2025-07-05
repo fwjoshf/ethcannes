@@ -1,6 +1,7 @@
+import { toast } from 'react-toastify'
 import { getEnsAddress } from '@wagmi/core'
 import { normalize } from 'viem/ens'
-import { mainnet } from 'wagmi/chains'
+import { sepolia } from 'wagmi/chains'
 // @mui
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -36,7 +37,12 @@ export default function AddEmployeeDialog({ organization, dialog }: Props) {
 
   const onAddEmployee = async () => {
     if (!employeeAddress || !salary || !activity) return
-    await addNewEmployee(employeeAddress as Address, salary, activity)
+    try {
+      const tx = await addNewEmployee(employeeAddress as Address, salary * 1000000000000000000, activity)
+      toast.success(`Add employee transaction submitted. transaction: ${tx}`)
+    } catch (err) {
+      toast.error(`Add employee: ${error}`)
+    }
     dialog.onFalse()
   }
 
@@ -54,7 +60,7 @@ export default function AddEmployeeDialog({ organization, dialog }: Props) {
       const currentRequestId = requestIdRef.current
 
       getEnsAddress(config, {
-        chainId: mainnet.id,
+        chainId: sepolia.id,
         name: normalize(value),
       }).then((address) => {
         if (currentRequestId === requestIdRef.current) {
@@ -79,8 +85,7 @@ export default function AddEmployeeDialog({ organization, dialog }: Props) {
 
         <DialogContent>
           <Typography sx={{ mb: 3 }}>
-            After the employee account is added, the employee must be verified with worldId to
-            approve that they are real huamn being instad of AI
+            After adding an employee, they must verify their personhood with World ID before receiving payments.
           </Typography>
 
           <TextField
@@ -105,7 +110,7 @@ export default function AddEmployeeDialog({ organization, dialog }: Props) {
             value={salary}
             onChange={(e) => setSalary(Number(e.target.value))}
             InputProps={{
-              endAdornment: <InputAdornment position="end">WEI</InputAdornment>,
+              endAdornment: <InputAdornment position="end">ETH</InputAdornment>,
             }}
           />
           <TextField
